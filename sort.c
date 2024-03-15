@@ -31,6 +31,66 @@ size_t Size(void* ptr)
 // extraMemoryAllocated counts bytes of extra memory allocated
 void mergeSort(int pData[], int l, int r)
 {
+	if (l < r) 
+	{
+        int m = l + (r - l) / 2;
+
+        mergeSort(pData, l, m);
+        mergeSort(pData, m + 1, r);
+		
+		int sizeLeftList = m - l + 1;
+		int sizeRightList = r - m;
+
+    	int *leftList = (int *)Alloc(sizeLeftList * sizeof(int));
+    	int *righhtList = (int *)Alloc(sizeRightList * sizeof(int));
+
+    	for (int i = 0; i < sizeLeftList; i++)
+		{
+			leftList[i] = pData[l + i];
+		}
+
+    	for (int j = 0; j < sizeRightList; j++)
+		{
+			righhtList[j] = pData[m + 1 + j];
+		}
+
+    	int indexLeft = 0;
+    	int indexright = 0;
+    	int indexFinal = l;
+    	while(indexLeft < sizeLeftList && indexright < sizeRightList) 
+		{
+        	if (leftList[indexLeft] <= righhtList[indexright]) 
+			{
+            	pData[indexFinal] = leftList[indexLeft];
+            	indexLeft++;
+        	}
+        	else 
+			{
+            	pData[indexFinal] = righhtList[indexright];
+            	indexright++;
+        	}
+
+        	indexFinal++;
+    	}
+
+    	while(indexLeft < sizeLeftList) 
+		{
+        	pData[indexFinal] = leftList[indexLeft];
+        	indexLeft++;
+        	indexFinal++;
+    	}
+
+    	while (indexright < sizeRightList) 
+		{
+        	pData[indexFinal] = righhtList[indexright];
+        	indexright++;
+        	indexFinal++;
+    	}
+
+    	DeAlloc(leftList);
+    	DeAlloc(righhtList);
+    }
+	
 }
 
 // parses input file to an integer array
